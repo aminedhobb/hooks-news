@@ -7,7 +7,7 @@ export default function App() {
 
   useEffect(() => {
     getResults()
-  }, [query])
+  }, [])
 
   const getResults = async () => {
     const response = await axios
@@ -15,9 +15,17 @@ export default function App() {
     setResults(response.data.hits)
   }
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    getResults()
+  }
+
   return(
     <>
-      <input type="text" onChange={event => setQuery(event.target.value)} />
+      <form onSubmit={handleSubmit}>
+        <input type="text" onChange={event => setQuery(event.target.value)} />
+        <button type="submit">Search</button>
+      </form>
       <ul>
         {results && results.map((result) => (
           <li key={result.objectID}>
